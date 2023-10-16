@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-(hmi*chx_15bp6*abb1v=hmu30t05!4s7yv5rof5a3m$aahadw
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = ['127.0.0.1','meusfilmesdublados-e810f7103ef2.herokuapp.com']
+ALLOWED_HOSTS = ['127.0.0.1', 'hashflix.herokuapp.com']
 
 
 # Application definition
@@ -40,10 +40,15 @@ INSTALLED_APPS = [
     'filme',
     'crispy_forms',
     'crispy_bootstrap5',
+    'cloudinary_storage',
+    'cloudinary',
 ]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+
+    'whitenoise.middleware.WhiteNoiseMiddleware',
+
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -86,14 +91,10 @@ DATABASES = {
 }
 
 import dj_database_url
-import os
-import datetime
 
-DATABASE_URL = os.getenv("DATABASE_URL")
-if DATABASE_URL:
-    DATABASES = {
-        'default': dj_database_url.config(default=DATABASE_URL, conn_max_age=1800)
-    }
+DATABASES['default'] = dj_database_url.config(conn_max_age=600, ssl_require=True)
+
+
 
 # Password validation
 # https://docs.djangoproject.com/en/4.0/ref/settings/#auth-password-validators
@@ -129,6 +130,8 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.0/howto/static-files/
 
+STATIC_ROOT = BASE_DIR / "staticfiles"
+
 STATIC_URL = 'static/'
 
 STATICFILES_DIRS = [
@@ -151,6 +154,15 @@ LOGIN_URL = 'filme:login'
 CRISPY_ALLOWED_TEMPLATE_PACKS = 'bootstrap5'
 
 CRISPY_TEMPLATE_PACK = 'bootstrap5'
+
+CLOUDINARY_STORAGE = {
+    'CLOUD_NAME': 'hvrstajff',
+    'API_KEY': '434289858935649',
+    'API_SECRET': 'GaKQKFM1PMPkS3UNHmDC6vmKsvw'
+}
+
+DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
+
 
 
 
